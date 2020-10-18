@@ -1,0 +1,13 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=PrusaSlicer
+GenericName=3D Printing Slicer
+Comment=Creates G-CODE files or PNG streams for FFF and SLA 3D printers
+Keywords=Prusa;graphic;design;printing;slicer;3d
+Exec=prusa-slicer %U
+Icon=${SNAP}/meta/gui/prusa-slicer.png
+Terminal=false
+Categories=Graphics;3DGraphics;GTK;
+StartupNotify=true
+
