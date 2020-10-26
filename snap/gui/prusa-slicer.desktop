@@ -10,4 +10,5 @@ Icon=${SNAP}/meta/gui/prusa-slicer.png
 Terminal=false
 Categories=Graphics;3DGraphics;GTK;
 StartupNotify=true
+MimeType=model/stl;application/vnd.ms-3mfdocument;application/prs.wavefront-obj;application/x-amf;
 

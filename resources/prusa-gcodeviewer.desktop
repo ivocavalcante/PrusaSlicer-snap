@@ -1,0 +1,13 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Prusa G-code Viewer
+GenericName=3D Printing G-code Viewer
+Comment=View and analyze 3D printing G-code files
+Keywords=Prusa;graphic;design;printing;slicer;3d
+Exec=prusa-gcodeviewer %U
+Icon=${SNAP}/meta/gui/prusa-gcodeviewer.png
+Terminal=false
+Categories=Graphics;3DGraphics;GTK;
+StartupNotify=true
+

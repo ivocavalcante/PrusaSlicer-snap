@@ -47,12 +47,53 @@ layout:
   /usr/share/libdrm:
     symlink: $SNAP/usr/share/libdrm
 
+plugs:
+  gtk-2-engines:
+    interface: content
+    target: $SNAP/lib/gtk-2.0
+    default-provider: gtk2-common-themes
+  gtk-2-themes:
+    interface: content
+    target: $SNAP/data-dir/themes
+    default-provider: gtk-common-themes
+  icon-themes:
+    interface: content
+    target: $SNAP/data-dir/icons
+    default-provider: gtk-common-themes
+  sound-themes:
+    interface: content
+    target: $SNAP/data-dir/sounds
+    default-provider: gtk-common-themes
+
 apps:
   prusa-slicer:
     environment:
       PATH: $SNAP/usr/local/bin:$PATH
       DISABLE_WAYLAND: 1
+      GTK_USE_PORTALS: 1
     command: bin/desktop-launch $SNAP/usr/local/bin/prusa-slicer
+    plugs:
+      - desktop
+      - desktop-legacy
+      - wayland
+      - x11
+      - unity7
+      - opengl
+      - home
+      - network
+      - optical-drive
+      - removable-media
+      - mount-observe
+      - hardware-observe
+      - raw-usb
+
+  prusa-gcodeviewer:
+    environment:
+      PATH: $SNAP/usr/local/bin:$PATH
+      DISABLE_WAYLAND: 1
+      GTK_USE_PORTALS: 1
+    command: bin/desktop-launch $SNAP/usr/local/bin/prusa-gcodeviewer
+    desktop: usr/local/share/applications/prusa-gcodeviewer.desktop
     plugs:
       - desktop
       - desktop-legacy
@@ -101,7 +142,7 @@ parts:
       - desktop-gtk2
     plugin: cmake
     source: https://github.com/prusa3d/PrusaSlicer.git
-    source-tag: version_2.3.0-alpha1
+    source-tag: version_2.3.0-alpha2
     build-packages:
       - build-essential
       - ccache
@@ -123,7 +164,7 @@ parts:
       - upstream-deps
     plugin: cmake
     source: https://github.com/prusa3d/PrusaSlicer.git
-    source-tag: version_2.3.0-alpha1
+    source-tag: version_2.3.0-alpha2
     build-packages:
       - build-essential
       - ccache
@@ -137,11 +178,34 @@ parts:
       - libopengl0
     override-build: |
       _version="$(git describe --tags | cut -d_ -f2)"
-      snapcraftctl set-version "$_version"
+      snapcraftctl set-version "${_version}-snap01"
 
       cmake "${SNAPCRAFT_PART_SRC}" \
         -DSLIC3R_ASAN=0 \
         -DSLIC3R_STATIC=1 \
         -DSLIC3R_FHS=1
       make -j$(nproc) && make "DESTDIR=${SNAPCRAFT_PART_INSTALL}" install
+    override-prime: |
+      snapcraftctl prime
+      cd "${SNAPCRAFT_PRIME}/usr/local/bin"
+
+      # Remove previous link, in case it already exists
+      rm -f prusa-gcodeviewer
+
+      # Creates link
+      ln -s prusa-slicer prusa-gcodeviewer
+
+  prusa-gcodeviewer:
+    after:
+      - prusa-slicer
+    plugin: dump
+    source: resources/
+    override-prime: |
+      snapcraftctl prime
+      mkdir -p "${SNAPCRAFT_PRIME}/usr/local/share/applications"
+
+      # Remove previous file, in case it already exists
+      rm -f "${SNAPCRAFT_PRIME}/usr/local/share/applications/prusa-gcodeviewer.desktop"
+
+      mv "${SNAPCRAFT_PRIME}/prusa-gcodeviewer.desktop" "${SNAPCRAFT_PRIME}/usr/local/share/applications"
 
