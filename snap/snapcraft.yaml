@@ -70,7 +70,7 @@ apps:
     environment:
       PATH: $SNAP/usr/local/bin:$PATH
       DISABLE_WAYLAND: 1
-      GTK_USE_PORTALS: 1
+      GTK_USE_PORTAL: 1
     command: bin/desktop-launch $SNAP/usr/local/bin/prusa-slicer
     plugs:
       - desktop
@@ -91,7 +91,7 @@ apps:
     environment:
       PATH: $SNAP/usr/local/bin:$PATH
       DISABLE_WAYLAND: 1
-      GTK_USE_PORTALS: 1
+      GTK_USE_PORTAL: 1
     command: bin/desktop-launch $SNAP/usr/local/bin/prusa-gcodeviewer
     desktop: usr/local/share/applications/prusa-gcodeviewer.desktop
     plugs:
@@ -178,7 +178,7 @@ parts:
       - libopengl0
     override-build: |
       _version="$(git describe --tags | cut -d_ -f2)"
-      snapcraftctl set-version "${_version}-snap01"
+      snapcraftctl set-version "${_version}-snap2"
 
       cmake "${SNAPCRAFT_PART_SRC}" \
         -DSLIC3R_ASAN=0 \
