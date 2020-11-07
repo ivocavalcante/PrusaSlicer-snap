@@ -71,7 +71,11 @@ apps:
       PATH: $SNAP/usr/local/bin:$PATH
       DISABLE_WAYLAND: 1
       GTK_USE_PORTAL: 1
-    command: bin/desktop-launch $SNAP/usr/local/bin/prusa-slicer
+      GTK_PATH: $SNAP/lib/gtk-2.0
+      GTK_DATA_PREFIX: $SNAP
+      XDG_DATA_DIRS: $SNAP/share:$XDG_DATA_DIRS
+    command: usr/local/bin/prusa-slicer
+    command-chain: [ bin/desktop-launch ]
     plugs:
       - desktop
       - desktop-legacy
@@ -92,7 +96,11 @@ apps:
       PATH: $SNAP/usr/local/bin:$PATH
       DISABLE_WAYLAND: 1
       GTK_USE_PORTAL: 1
-    command: bin/desktop-launch $SNAP/usr/local/bin/prusa-gcodeviewer
+      GTK_PATH: $SNAP/lib/gtk-2.0
+      GTK_DATA_PREFIX: $SNAP
+      XDG_DATA_DIRS: $SNAP/share:$XDG_DATA_DIRS
+    command: usr/local/bin/prusa-gcodeviewer
+    command-chain: [ bin/desktop-launch ]
     desktop: usr/local/share/applications/prusa-gcodeviewer.desktop
     plugs:
       - desktop
@@ -136,6 +144,10 @@ parts:
       - xdg-user-dirs
       - ibus-gtk
       - libibus-1.0-5
+      - libcanberra-gtk-module
+      - libatk-bridge2.0-0
+      - libgail-common
+      - libatk-adaptor
 
   upstream-deps:
     after:
@@ -178,7 +190,7 @@ parts:
       - libopengl0
     override-build: |
       _version="$(git describe --tags | cut -d_ -f2)"
-      snapcraftctl set-version "${_version}-snap2"
+      snapcraftctl set-version "${_version}-snap3"
 
       cmake "${SNAPCRAFT_PART_SRC}" \
         -DSLIC3R_ASAN=0 \
