@@ -167,3 +167,6 @@ parts:
       sed -i 's|^[[:blank:]]*Icon=.*$|Icon=${SNAP}/usr/local/share/PrusaSlicer/icons/PrusaSlicer_192px.png|' "${SNAPCRAFT_PRIME}/usr/local/share/PrusaSlicer/applications/PrusaSlicer.desktop"
       sed -i 's|^[[:blank:]]*Icon=.*$|Icon=${SNAP}/usr/local/share/PrusaSlicer/icons/PrusaSlicer-gcodeviewer_192px.png|' "${SNAPCRAFT_PRIME}/usr/local/share/PrusaSlicer/applications/PrusaGcodeviewer.desktop"
 
+      # "Dangling" link, 'causing store to reject upload
+      rm "${SNAPCRAFT_PRIME}/usr/local/share/PrusaSlicer/resources"
+
