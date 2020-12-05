@@ -138,7 +138,7 @@ parts:
       - libopengl0
     override-build: |
       _version="$(git describe --tags | cut -d_ -f2)"
-      snapcraftctl set-version "${_version}-snap1"
+      snapcraftctl set-version "${_version}-snap2"
 
       git config --global user.email "ivo.cavalcante@gmail.com"
       git config --global user.name "Ivo Cavalcante"
