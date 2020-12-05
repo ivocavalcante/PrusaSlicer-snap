@@ -40,6 +40,7 @@ description: |
 grade: stable
 confinement: strict
 icon: snap/gui/prusa-slicer.png
+compression: lzo
 
 layout:
   /usr/local/share/PrusaSlicer:
@@ -165,7 +166,7 @@ parts:
       - libsm6
     override-build: |
       _version="$(git describe --tags | cut -d_ -f2)"
-      snapcraftctl set-version "${_version}-snap2"
+      snapcraftctl set-version "${_version}-snap3"
 
       cmake "${SNAPCRAFT_PART_SRC}" \
         -DSLIC3R_ASAN=0 \
