@@ -1,6 +1,6 @@
 # PrusaSlicer-snap
 
-Source for Snap package of PrusaSlicer **(unnoficial)**.
+Source for Snap package of PrusaSlicer **(unofficial)**.
 
 Original project URL: [GitHub/PrusaSlicer](https://github.com/prusa3d/PrusaSlicer).
 
@@ -27,7 +27,7 @@ Connect following interfaces, in order to be able to save G-CODE directly to SD 
 
 **Disclaimer:**
 
-This is an **unofficial package**,  under development. Please report any issues to **package developer**, unless reproducible in upstream version - and, thus, not a packaging problem.
+This is an **unofficial package**, under development. Please report any issues to **package developer**, unless reproducible in upstream version - and, thus, not a packaging problem.
 
 **snapcraft.yaml** file can be found here: https://github.com/ivocavalcante/PrusaSlicer-snap/blob/main/snap/snapcraft.yaml
 
