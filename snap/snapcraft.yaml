@@ -48,6 +48,7 @@ apps:
     plugs:
       - desktop
       - desktop-legacy
+      - gsettings
       - wayland
       - x11
       - unity7
@@ -73,6 +74,7 @@ apps:
     plugs:
       - desktop
       - desktop-legacy
+      - gsettings
       - wayland
       - x11
       - unity7
@@ -113,6 +115,9 @@ parts:
       - fcitx-frontend-gtk3
       - libgtk2.0-0
       - libcanberra-gtk3-module
+    override-prime: |
+      snapcraftctl prime
+      glib-compile-schemas "${SNAPCRAFT_PRIME}/usr/share/glib-2.0/schemas"
 
   prusa-slicer:
     after:
@@ -140,14 +145,19 @@ parts:
       rm -rf --one-file-system "${SNAPCRAFT_PART_BUILD}/*" "${SNAPCRAFT_PART_BUILD}/.git"
       cp -ar "${SNAPCRAFT_PART_SRC}"/* "${SNAPCRAFT_PART_BUILD}"
       cp -ar "${SNAPCRAFT_PART_SRC}/.git" "${SNAPCRAFT_PART_BUILD}"
-      pwd
-      _version="$(git describe --tags | cut -d_ -f2)"
-      snapcraftctl set-version "${_version}+snap1"
+
+      _version="$(git describe --tags | cut -d_ -f2 | grep -o '^[[:digit:]]\+\.[[:digit:]]\+\.[[:digit:]]\+')"
+      snapcraftctl set-version "${_version}+snap2"
 
       git config --global user.email "ivo.cavalcante@gmail.com"
       git config --global user.name "Ivo Cavalcante"
 
       cd deps
+      sed -i 's|dl.bintray.com/boostorg/release/1.70.0/source/boost_1_70_0.tar.gz|boostorg.jfrog.io/artifactory/main/release/1.70.0/source/boost_1_70_0.tar.gz|g' \
+        deps-linux.cmake \
+        deps-macos.cmake \
+        deps-mingw.cmake \
+        deps-windows.cmake
       cmake -DCMAKE_PREFIX_PATH=usr/local -DDESTDIR=/ -DDEP_WX_GTK3=1
       make -j$(nproc)
 
