@@ -124,7 +124,7 @@ parts:
       - desktop-gtk3
     plugin: cmake
     source: https://github.com/prusa3d/PrusaSlicer.git
-    source-tag: version_2.3.1
+    source-tag: version_2.3.3
     parse-info: [ usr/local/share/PrusaSlicer/data/flatpak/com.prusa3d.PrusaSlicer.metainfo.xml ]
     build-packages:
       - build-essential
@@ -147,7 +147,7 @@ parts:
       cp -ar "${SNAPCRAFT_PART_SRC}/.git" "${SNAPCRAFT_PART_BUILD}"
 
       _version="$(git describe --tags | cut -d_ -f2 | grep -o '^[[:digit:]]\+\.[[:digit:]]\+\.[[:digit:]]\+')"
-      snapcraftctl set-version "${_version}+snap2"
+      snapcraftctl set-version "${_version}+snap1"
 
       git config --global user.email "ivo.cavalcante@gmail.com"
       git config --global user.name "Ivo Cavalcante"
