@@ -1,180 +1,202 @@
 name: prusa-slicer
 base: core20
 adopt-info: prusa-slicer
+summary: Powerful 3D printing slicer optimized for Prusa printers
+description: |
+    PrusaSlicer takes 3D models (STL, OBJ, AMF) and converts them into G-code instructions
+    for FFF printers or PNG layers for mSLA 3D printers. It's compatible with any modern printer
+    based on the RepRap toolchain, including all those based on the Marlin, Prusa, Sprinter and
+    Repetier firmware. It also works with Mach3, LinuxCNC and Machinekit controllers.
+
+    PrusaSlicer is based on Slic3r by Alessandro Ranelucci and the RepRap community
+
+    Check upstream - [github.com/prusa3d/PrusaSlicer](https://github.com/prusa3d/PrusaSlicer) - for more info about the project.
+
+    Connect following interfaces, in order to be able to save G-CODE directly to SD cards; unmounting cards through interface doesn't work though, and will crash GUI (I'm looking into it).
+
+    `sudo snap connect prusa-slicer:removable-media`
+    `sudo snap connect prusa-slicer:mount-observe`
+
+    **Disclaimer:**
+
+    This is an **unofficial package**,  under development. Please report any issues to **package developer**, unless reproducible in upstream version - and, thus, not a packaging problem.
+
+    **snapcraft.yaml** file can be found here: https://github.com/ivocavalcante/PrusaSlicer-snap/blob/main/snap/snapcraft.yaml
+
+    All product and company names are trademarks™ or registered® trademarks of their respective holders. Use of them does not imply any affiliation with or endorsement by them.
 architectures:
-  - build-on: amd64
-    run-on: amd64
+    - build-on: amd64
+      run-on: amd64
 
 compression: lzo
 grade: stable
 confinement: strict
 
 plugs:
-  gtk-3-themes:
-    default-provider: gtk-common-themes
-    interface: content
-    target: $SNAP/data-dir/themes
-  icon-themes:
-    interface: content
-    target: $SNAP/data-dir/icons
-    default-provider: gtk-common-themes
-  sound-themes:
-    interface: content
-    target: $SNAP/data-dir/sounds
-    default-provider: gtk-common-themes
+    gtk-3-themes:
+        default-provider: gtk-common-themes
+        interface: content
+        target: $SNAP/data-dir/themes
+    icon-themes:
+        interface: content
+        target: $SNAP/data-dir/icons
+        default-provider: gtk-common-themes
+    sound-themes:
+        interface: content
+        target: $SNAP/data-dir/sounds
+        default-provider: gtk-common-themes
 
 layout:
-  /usr/lib/$SNAPCRAFT_ARCH_TRIPLET/webkit2gtk-4.0:
-    bind: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/webkit2gtk-4.0
-  /usr/share/xml/iso-codes:
-    bind: $SNAP/usr/share/xml/iso-codes
-  /usr/local/share/PrusaSlicer:
-    symlink: $SNAP/usr/local/share/PrusaSlicer
-  /usr/share/libdrm:
-    symlink: $SNAP/usr/share/libdrm
+    /usr/lib/$SNAPCRAFT_ARCH_TRIPLET/webkit2gtk-4.0:
+        bind: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/webkit2gtk-4.0
+    /usr/share/xml/iso-codes:
+        bind: $SNAP/usr/share/xml/iso-codes
+    /usr/local/share/PrusaSlicer:
+        symlink: $SNAP/usr/local/share/PrusaSlicer
+    /usr/share/libdrm:
+        symlink: $SNAP/usr/share/libdrm
 
 apps:
-  prusa-slicer:
-    common-id: com.prusa3d.PrusaSlicer
-    environment:
-      PATH: $SNAP/usr/local/bin:$PATH
-      DISABLE_WAYLAND: 1
-      GTK_USE_PORTAL: 1
-      GTK_DATA_PREFIX: $SNAP
-      XDG_DATA_DIRS: $SNAP/share:$XDG_DATA_DIRS
-    command: usr/local/bin/prusa-slicer
-    command-chain: [ bin/desktop-launch ]
-    desktop: usr/local/share/PrusaSlicer/applications/PrusaSlicer.desktop
-    plugs:
-      - desktop
-      - desktop-legacy
-      - gsettings
-      - wayland
-      - x11
-      - unity7
-      - opengl
-      - home
-      - network
-      - optical-drive
-      - removable-media
-      - mount-observe
-      - hardware-observe
-      - raw-usb
+    prusa-slicer:
+        common-id: com.prusa3d.PrusaSlicer
+        environment:
+            PATH: $SNAP/usr/local/bin:$PATH
+            DISABLE_WAYLAND: 1
+            GTK_USE_PORTAL: 1
+            GTK_DATA_PREFIX: $SNAP
+            XDG_DATA_DIRS: $SNAP/share:$XDG_DATA_DIRS
+        command: usr/local/bin/prusa-slicer
+        command-chain: [ bin/desktop-launch ]
+        desktop: usr/local/share/applications/PrusaSlicer.desktop
+        plugs:
+            - desktop
+            - desktop-legacy
+            - gsettings
+            - wayland
+            - x11
+            - unity7
+            - opengl
+            - home
+            - network
+            - optical-drive
+            - removable-media
+            - mount-observe
+            - hardware-observe
+            - raw-usb
 
-  prusa-gcodeviewer:
-    environment:
-      PATH: $SNAP/usr/local/bin:$PATH
-      DISABLE_WAYLAND: 1
-      GTK_USE_PORTAL: 1
-      GTK_DATA_PREFIX: $SNAP
-      XDG_DATA_DIRS: $SNAP/share:$XDG_DATA_DIRS
-    command: usr/local/bin/prusa-slicer --gcodeviewer
-    command-chain: [ bin/desktop-launch ]
-    desktop: usr/local/share/PrusaSlicer/applications/PrusaGcodeviewer.desktop
-    plugs:
-      - desktop
-      - desktop-legacy
-      - gsettings
-      - wayland
-      - x11
-      - unity7
-      - opengl
-      - home
-      - network
-      - optical-drive
-      - removable-media
-      - mount-observe
+    prusa-gcodeviewer:
+        environment:
+            PATH: $SNAP/usr/local/bin:$PATH
+            DISABLE_WAYLAND: 1
+            GTK_USE_PORTAL: 1
+            GTK_DATA_PREFIX: $SNAP
+            XDG_DATA_DIRS: $SNAP/share:$XDG_DATA_DIRS
+        command: usr/local/bin/prusa-slicer --gcodeviewer
+        command-chain: [ bin/desktop-launch ]
+        desktop: usr/local/share/applications/PrusaGcodeviewer.desktop
+        plugs:
+            - desktop
+            - desktop-legacy
+            - gsettings
+            - wayland
+            - x11
+            - unity7
+            - opengl
+            - home
+            - network
+            - optical-drive
+            - removable-media
+            - mount-observe
 
 parts:
-  desktop-gtk3:
-    source: https://github.com/ubuntu/snapcraft-desktop-helpers.git
-    source-subdir: gtk
-    plugin: make
-    make-parameters: ["FLAVOR=gtk3"]
-    build-packages:
-      - build-essential
-      - libgtk-3-dev
-    stage-packages:
-      - libxkbcommon0  # XKB_CONFIG_ROOT
-      - ttf-ubuntu-font-family
-      - dmz-cursor-theme
-      - light-themes
-      - adwaita-icon-theme
-      - gnome-themes-standard
-      - shared-mime-info
-      - libgtk-3-0
-      - libgdk-pixbuf2.0-0
-      - libglib2.0-bin
-      - libgtk-3-bin
-      - unity-gtk3-module
-      - libappindicator3-1
-      - locales-all
-      - xdg-user-dirs
-      - ibus-gtk3
-      - libibus-1.0-5
-      - fcitx-frontend-gtk3
-      - libgtk2.0-0
-      - libcanberra-gtk3-module
-    override-prime: |
-      snapcraftctl prime
-      glib-compile-schemas "${SNAPCRAFT_PRIME}/usr/share/glib-2.0/schemas"
+    desktop-gtk3:
+        source: https://github.com/ubuntu/snapcraft-desktop-helpers.git
+        source-subdir: gtk
+        plugin: make
+        make-parameters: ["FLAVOR=gtk3"]
+        build-packages:
+            - build-essential
+            - libgtk-3-dev
+        stage-packages:
+            - libxkbcommon0  # XKB_CONFIG_ROOT
+            - ttf-ubuntu-font-family
+            - dmz-cursor-theme
+            - light-themes
+            - adwaita-icon-theme
+            - gnome-themes-standard
+            - shared-mime-info
+            - libgtk-3-0
+            - libgdk-pixbuf2.0-0
+            - libglib2.0-bin
+            - libgtk-3-bin
+            - unity-gtk3-module
+            - libappindicator3-1
+            - locales-all
+            - xdg-user-dirs
+            - ibus-gtk3
+            - libibus-1.0-5
+            - fcitx-frontend-gtk3
+            - libgtk2.0-0
+            - libcanberra-gtk3-module
+        override-prime: |
+            snapcraftctl prime
+            glib-compile-schemas "${SNAPCRAFT_PRIME}/usr/share/glib-2.0/schemas"
 
-  prusa-slicer:
-    after:
-      - desktop-gtk3
-    plugin: cmake
-    source: https://github.com/prusa3d/PrusaSlicer.git
-    source-tag: version_2.3.3
-    parse-info: [ usr/local/share/PrusaSlicer/data/flatpak/com.prusa3d.PrusaSlicer.metainfo.xml ]
-    build-packages:
-      - build-essential
-      - ccache
-      - cmake
-      - gettext
-      - git
-      - libgl1-mesa-dev
-      - libglew-dev
-      - libudev-dev
-      - libdbus-1-dev
-      - m4
-    stage-packages:
-      - libglu1-mesa
-      - libdrm-common
-      - libopengl0
-    override-build: |
-      rm -rf --one-file-system "${SNAPCRAFT_PART_BUILD}/*" "${SNAPCRAFT_PART_BUILD}/.git"
-      cp -ar "${SNAPCRAFT_PART_SRC}"/* "${SNAPCRAFT_PART_BUILD}"
-      cp -ar "${SNAPCRAFT_PART_SRC}/.git" "${SNAPCRAFT_PART_BUILD}"
+    prusa-slicer:
+        after:
+            - desktop-gtk3
+        plugin: cmake
+        source: https://github.com/prusa3d/PrusaSlicer.git
+        source-tag: version_2.4.0-alpha1
+        build-packages:
+            - build-essential
+            - ccache
+            - cmake
+            - gettext
+            - git
+            - libgl1-mesa-dev
+            - libglew-dev
+            - libudev-dev
+            - libdbus-1-dev
+            - m4
+        stage-packages:
+            - libglu1-mesa
+            - libdrm-common
+            - libopengl0
+        override-pull: |
+            snapcraftctl pull
+            _pkgversion="snap1"
+            _version="$(git describe --tags | cut -d_ -f2 | grep -o '^[[:digit:]]\+\.[[:digit:]]\+\.[[:digit:]]\+\(-[A-z0-9]\+\)\?')"
 
-      _version="$(git describe --tags | cut -d_ -f2 | grep -o '^[[:digit:]]\+\.[[:digit:]]\+\.[[:digit:]]\+')"
-      snapcraftctl set-version "${_version}+snap1"
+            # Set Snap package version
+            snapcraftctl set-version "${_version}+${_pkgversion}"
+            sed -i "s/set(SLIC3R_BUILD_ID \"PrusaSlicer-\${SLIC3R_VERSION}+UNKNOWN\")/set(SLIC3R_BUILD_ID \"PrusaSlicer-\${SLIC3R_VERSION}+${_pkgversion}\")/g" version.inc
 
-      git config --global user.email "ivo.cavalcante@gmail.com"
-      git config --global user.name "Ivo Cavalcante"
+        override-build: |
+            cp -a "${SNAPCRAFT_PART_SRC}"/* "${SNAPCRAFT_PART_BUILD}"
 
-      cd deps
-      sed -i 's|dl.bintray.com/boostorg/release/1.70.0/source/boost_1_70_0.tar.gz|boostorg.jfrog.io/artifactory/main/release/1.70.0/source/boost_1_70_0.tar.gz|g' \
-        deps-linux.cmake \
-        deps-macos.cmake \
-        deps-mingw.cmake \
-        deps-windows.cmake
-      cmake -DCMAKE_PREFIX_PATH=usr/local -DDESTDIR=/ -DDEP_WX_GTK3=1
-      make -j$(nproc)
+            # Build dependencies, as configured upstream
+            cd deps
+            cmake -DCMAKE_PREFIX_PATH=usr/local -DDESTDIR=/ -DDEP_WX_GTK3=1
+            make -j$SNAPCRAFT_PARALLEL_BUILD_COUNT
+            cd ..
 
-      cd ..
-      cmake "${SNAPCRAFT_PART_BUILD}" \
-        -DSLIC3R_ASAN=0 \
-        -DSLIC3R_STATIC=1 \
-        -DSLIC3R_FHS=1 \
-        -DSLIC3R_BUILD_TESTS=OFF \
-        -DSLIC3R_GTK=3
-      make -j$(nproc) && make "DESTDIR=${SNAPCRAFT_PART_INSTALL}" install
-    override-prime: |
-      snapcraftctl prime
+            # Build slicer
+            cmake "${SNAPCRAFT_PART_BUILD}" \
+                -DSLIC3R_ASAN=0 \
+                -DSLIC3R_STATIC=1 \
+                -DSLIC3R_FHS=1 \
+                -DSLIC3R_BUILD_TESTS=OFF \
+                -DSLIC3R_GTK=3 \
+                -DSLIC3R_DESKTOP_INTEGRATION=0 \
+                -DCMAKE_BUILD_TYPE=Release
+            make -j$(nproc) && make "DESTDIR=${SNAPCRAFT_PART_INSTALL}" install
+        override-prime: |
+            snapcraftctl prime
 
-      sed -i 's|^[[:blank:]]*Icon=.*$|Icon=${SNAP}/usr/local/share/PrusaSlicer/icons/PrusaSlicer_192px.png|' "${SNAPCRAFT_PRIME}/usr/local/share/PrusaSlicer/applications/PrusaSlicer.desktop"
-      sed -i 's|^[[:blank:]]*Icon=.*$|Icon=${SNAP}/usr/local/share/PrusaSlicer/icons/PrusaSlicer-gcodeviewer_192px.png|' "${SNAPCRAFT_PRIME}/usr/local/share/PrusaSlicer/applications/PrusaGcodeviewer.desktop"
+            sed -i 's|^[[:blank:]]*Icon=.*$|Icon=/usr/local/share/icons/hicolor/192x192/apps/PrusaSlicer.png|' "${SNAPCRAFT_PRIME}/usr/local/share/applications/PrusaSlicer.desktop"
+            sed -i 's|^[[:blank:]]*Icon=.*$|Icon=/usr/local/share/icons/hicolor/192x192/apps/PrusaSlicer-gcodeviewer.png|' "${SNAPCRAFT_PRIME}/usr/local/share/applications/PrusaGcodeviewer.desktop"
 
-      # "Dangling" link, 'causing store to reject upload
-      rm "${SNAPCRAFT_PRIME}/usr/local/share/PrusaSlicer/resources"
+            # "Dangling" link, 'causing store to reject upload
+            rm "${SNAPCRAFT_PRIME}/usr/local/share/PrusaSlicer/resources"
 
