@@ -147,7 +147,7 @@ parts:
       cp -ar "${SNAPCRAFT_PART_SRC}/.git" "${SNAPCRAFT_PART_BUILD}"
 
       _version="$(git describe --tags | cut -d_ -f2 | grep -o '^[[:digit:]]\+\.[[:digit:]]\+\.[[:digit:]]\+')"
-      snapcraftctl set-version "${_version}+snap1"
+      snapcraftctl set-version "${_version}+snap2"
 
       git config --global user.email "ivo.cavalcante@gmail.com"
       git config --global user.name "Ivo Cavalcante"
