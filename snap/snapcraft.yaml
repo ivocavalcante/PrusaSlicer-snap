@@ -12,7 +12,7 @@ description: |
 
     Check upstream - [github.com/prusa3d/PrusaSlicer](https://github.com/prusa3d/PrusaSlicer) - for more info about the project.
 
-    Connect following interfaces, in order to be able to save G-CODE directly to SD cards; unmounting cards through interface doesn't work though, and will crash GUI (I'm looking into it).
+    Connect following interfaces, in order to be able to save G-CODE directly to SD cards; unmounting cards through interface doesn't work though, and will crash GUI.
 
     `sudo snap connect prusa-slicer:removable-media`
     `sudo snap connect prusa-slicer:mount-observe`
@@ -147,7 +147,7 @@ parts:
             - desktop-gtk3
         plugin: cmake
         source: https://github.com/prusa3d/PrusaSlicer.git
-        source-tag: version_2.4.0-alpha2
+        source-tag: version_2.4.0-alpha3
         build-packages:
             - build-essential
             - ccache
@@ -191,6 +191,7 @@ parts:
                 -DSLIC3R_DESKTOP_INTEGRATION=0 \
                 -DCMAKE_BUILD_TYPE=Release
             make -j$SNAPCRAFT_PARALLEL_BUILD_COUNT && make "DESTDIR=${SNAPCRAFT_PART_INSTALL}" install
+
         override-prime: |
             snapcraftctl prime
 
