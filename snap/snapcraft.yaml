@@ -147,7 +147,7 @@ parts:
             - desktop-gtk3
         plugin: cmake
         source: https://github.com/prusa3d/PrusaSlicer.git
-        source-tag: version_2.4.0-alpha3
+        source-tag: version_2.4.0-beta1
         build-packages:
             - build-essential
             - ccache
