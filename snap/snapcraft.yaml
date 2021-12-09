@@ -142,12 +142,21 @@ parts:
             snapcraftctl prime
             glib-compile-schemas "${SNAPCRAFT_PRIME}/usr/share/glib-2.0/schemas"
 
+    patches:
+        source: ./patches
+        plugin: dump
+        organize:
+            '*.patch': patches/
+        prime:
+            - -patches/
+
     prusa-slicer:
         after:
             - desktop-gtk3
+            - patches
         plugin: cmake
         source: https://github.com/prusa3d/PrusaSlicer.git
-        source-tag: version_2.4.0-beta1
+        source-tag: version_2.4.0-beta3
         build-packages:
             - build-essential
             - ccache
@@ -171,6 +180,9 @@ parts:
             # Set Snap package version
             snapcraftctl set-version "${_version}+${_pkgversion}"
             sed -i "s/set(SLIC3R_BUILD_ID \"PrusaSlicer-\${SLIC3R_VERSION}+UNKNOWN\")/set(SLIC3R_BUILD_ID \"PrusaSlicer-\${SLIC3R_VERSION}+${_pkgversion}\")/g" version.inc
+
+            # Apply patches
+            git apply "${SNAPCRAFT_STAGE}"/patches/*
 
         override-build: |
             cp -a "${SNAPCRAFT_PART_SRC}"/* "${SNAPCRAFT_PART_BUILD}"
