@@ -156,7 +156,7 @@ parts:
             - patches
         plugin: cmake
         source: https://github.com/prusa3d/PrusaSlicer.git
-        source-tag: version_2.4.0-beta3
+        source-tag: version_2.4.0-beta4
         build-packages:
             - build-essential
             - ccache
@@ -181,8 +181,10 @@ parts:
             snapcraftctl set-version "${_version}+${_pkgversion}"
             sed -i "s/set(SLIC3R_BUILD_ID \"PrusaSlicer-\${SLIC3R_VERSION}+UNKNOWN\")/set(SLIC3R_BUILD_ID \"PrusaSlicer-\${SLIC3R_VERSION}+${_pkgversion}\")/g" version.inc
 
-            # Apply patches
-            git apply "${SNAPCRAFT_STAGE}"/patches/*
+            if [ -d "${SNAPCRAFT_STAGE}/patches" ]; then
+                # Apply patches
+                git apply "${SNAPCRAFT_STAGE}"/patches/*
+            fi
 
         override-build: |
             cp -a "${SNAPCRAFT_PART_SRC}"/* "${SNAPCRAFT_PART_BUILD}"
