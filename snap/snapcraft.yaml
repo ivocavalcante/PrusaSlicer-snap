@@ -185,7 +185,7 @@ parts:
 
         override-pull: |
             snapcraftctl pull
-            _pkgversion="snap1"
+            _pkgversion="snap2"
             _version="$(git describe --tags | cut -d_ -f2 | grep -o '^[[:digit:]]\+\.[[:digit:]]\+\.[[:digit:]]\+\(-[A-z0-9]\+\)\?')"
 
             # Set Snap package version
