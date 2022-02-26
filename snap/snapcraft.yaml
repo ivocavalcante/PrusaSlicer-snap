@@ -60,7 +60,6 @@ apps:
             - opengl
             - home
             - network
-            - optical-drive
             - removable-media
             - mount-observe
             - hardware-observe
@@ -87,7 +86,6 @@ apps:
             - opengl
             - home
             - network
-            - optical-drive
             - removable-media
             - mount-observe
 
@@ -156,7 +154,7 @@ parts:
             - patches
         plugin: cmake
         source: https://github.com/prusa3d/PrusaSlicer.git
-        source-tag: version_2.4.1-beta1
+        source-tag: version_2.4.1-beta3
 
         filesets:
             no-doc:
