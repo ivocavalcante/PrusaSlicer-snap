@@ -154,7 +154,7 @@ parts:
             - patches
         plugin: cmake
         source: https://github.com/prusa3d/PrusaSlicer.git
-        source-tag: version_2.4.1-beta3
+        source-tag: version_2.4.1-rc1
 
         filesets:
             no-doc:
@@ -183,7 +183,7 @@ parts:
 
         override-pull: |
             snapcraftctl pull
-            _pkgversion="snap2"
+            _pkgversion="snap1"
             _version="$(git describe --tags | cut -d_ -f2 | grep -o '^[[:digit:]]\+\.[[:digit:]]\+\.[[:digit:]]\+\(-[A-z0-9]\+\)\?')"
 
             # Set Snap package version
