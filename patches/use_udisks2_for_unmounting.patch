@@ -63,7 +63,7 @@ index 5fb8b0132..3d721930b 100644
  		//this->eject_device(correct_path);
  #else
 -    		boost::process::search_path("umount"), correct_path.c_str(), (boost::process::std_out & boost::process::std_err) > istd_err);
-+                boost::process::search_path("udisksctl"), "unmount", "-b", search_for_drives_internal::get_dev_from_path(correct_path).c_str(), (boost::process::std_out & boost::process::std_err) > istd_err);
++                boost::process::search_path("udisksctl"), "unmount", "--force", "-b", search_for_drives_internal::get_dev_from_path(correct_path).c_str(), (boost::process::std_out & boost::process::std_err) > istd_err);
  #endif
  		std::string line;
  		while (child.running() && std::getline(istd_err, line)) {
