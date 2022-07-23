@@ -154,7 +154,7 @@ parts:
             - patches
         plugin: cmake
         source: https://github.com/prusa3d/PrusaSlicer.git
-        source-tag: version_2.5.0-alpha2
+        source-tag: version_2.5.0-alpha3
 
         filesets:
             no-doc:
