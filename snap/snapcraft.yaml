@@ -87,18 +87,15 @@ parts:
             - libgl1   # Needed for GCode viewer at runtime
 
         override-pull: |
+            set -euxo pipefail
+
             craftctl default
-            _pkgversion="snap4"
+            _pkgversion="snap5"
             _version="$(git describe --tags | cut -d_ -f2 | grep -o '^[[:digit:]]\+\.[[:digit:]]\+\.[[:digit:]]\+\(-[A-z0-9]\+\)\?')"
 
             # Set Snap package version
             craftctl set version="${_version}+${_pkgversion}"
             sed -i "s/set(SLIC3R_BUILD_ID \"PrusaSlicer-\${SLIC3R_VERSION}+UNKNOWN\")/set(SLIC3R_BUILD_ID \"PrusaSlicer-\${SLIC3R_VERSION}+${_pkgversion}\")/g" version.inc
-
-            if [ -d "${CRAFT_STAGE}/patches" ]; then
-                # Apply patches
-                git apply "${CRAFT_STAGE}"/patches/*
-            fi
 
         build-environment:
             - CMAKE_PREFIX_PATH: /usr/local;$CRAFT_PART_BUILD/usr/local;$CRAFT_STAGE;/usr
@@ -109,6 +106,11 @@ parts:
 
             unset LD_LIBRARY_PATH
             cp -a "${CRAFT_PART_SRC}"/* "${CRAFT_PART_BUILD}"
+
+            if [[ -d "${CRAFT_STAGE}/patches" ]]; then
+                # Apply patches
+                git apply "${CRAFT_STAGE}"/patches/*
+            fi
 
             # Build dependencies, as configured upstream
             cd deps
