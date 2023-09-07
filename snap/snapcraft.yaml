@@ -66,7 +66,7 @@ parts:
             - patches
         plugin: cmake
         source: https://github.com/prusa3d/PrusaSlicer.git
-        source-tag: version_2.6.0
+        source-tag: version_2.6.1
         build-packages:
             - build-essential
             - cmake
@@ -90,7 +90,7 @@ parts:
             set -euxo pipefail
 
             craftctl default
-            _pkgversion="snap5"
+            _pkgversion="snap1"
             _version="$(git describe --tags | cut -d_ -f2 | grep -o '^[[:digit:]]\+\.[[:digit:]]\+\.[[:digit:]]\+\(-[A-z0-9]\+\)\?')"
 
             # Set Snap package version
